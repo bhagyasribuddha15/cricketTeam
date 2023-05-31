@@ -28,8 +28,8 @@ const convertDbObjToResObj = (dbObject) => {
     return {
         playerId : dbObject.player_id,
         playerName : dbObject.player_name,
-        jerseyNumber : dbObject.jerseyNumber,
-        role : dbObject.role;
+        jerseyNumber : dbObject.jersey_number,
+        role : dbObject.role,
     }
 };
 
@@ -38,11 +38,11 @@ app.get("/players/", async (request, response) => {
     SELECT 
     * FROM 
     cricket_team
-    ORDER BY player_id;`;
+    `;
 
   const allPlayers = await db.all(getPlayers);
   response.send(allPlayers.map((eachplayer) => {
       convertDbObjToResObj(eachplayer)
-  )
-  });
+  ))
+  ;
 });
