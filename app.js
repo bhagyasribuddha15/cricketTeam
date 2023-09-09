@@ -47,3 +47,4 @@ app.get("/players/", async (request, response) => {
     playersArray.map((eachPlayer) => convertDbObjToResponseObj(eachPlayer))
   );
 });
+module.exports = app;
