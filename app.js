@@ -48,3 +48,29 @@ app.get("/players/", async (request, response) => {
   );
 });
 module.exports = app;
+
+//create new player in the team
+
+app.post("/players/", async (request, response) => {
+  const playerDetails = request.body;
+  const { playerName, jerseyNumber, role } = playerDetails;
+  const AddPlayerIntoTeam = `
+            INSERT INTO 
+                    cricket_team
+                (player_name,jersey_number,role) VALUES ('${playerName}',
+                '${jerseyNumber}',
+                '${role}');`;
+  const dbResponse = await db.run(AddPlayerIntoTeam);
+  const playerId = dbResponse.lastID;
+  response.send("player Added to team");
+});
+
+//return player based on playerId
+
+app.get("/players/:playerId/", async (request, response) => {
+  const { playerId } = request.params;
+  const getPlayer = `SELECT * FROM cricket_team
+    WHERE player_id = ${playerId}; `;
+  const player = await db.get(getPlayer);
+  response.send(convertDbObjToResponseObj(player));
+});
